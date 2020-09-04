@@ -5,8 +5,6 @@ from device.models import DeviceSensor
 
 
 class DeviceXiaoMiSensor(DeviceSensor):
-    name = 'xiaomi'
-    type = None
 
     def get_data(self):
         # 统一规定所有获取数据的方式都是使用
@@ -14,6 +12,6 @@ class DeviceXiaoMiSensor(DeviceSensor):
 
 
 def guang_zhao_sensor(DeviceXiaoMiSensor):
-    type = 'guangzhao'
+
     def get_data(self):
         pass

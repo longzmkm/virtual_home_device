@@ -1,0 +1,22 @@
+mqtt_setting:
+  iterval: 15
+  broker_port: 1884
+
+
+mqtt:
+  - sensor:
+    env: home-assi.csv
+    name: light
+    numb: 0xa33b
+    values:
+      - key: ill
+        type: light
+  - sensor:
+    env: nong-change.csv
+    name: plug
+    numb: 0xa33b
+    values:
+      - key: temperature
+        type: tem
+      - key: humidity
+        type:
