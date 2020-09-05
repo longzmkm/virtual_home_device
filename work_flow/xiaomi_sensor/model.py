@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 # © 2016 QYT Technology
 # Authored by: Liu tianlong (tlzmkm@gmail.com)
-from device.xiaomi.models import XiaoMiSensor
-from pipeline.mqtt.model import MqttClient
+from hapi.device.xiaomi.models import XiaoMiSensor
+from hapi.pipeline.mqtt.model import MqttClient
 
 
 class MqttXiaoMiSensor(object):
