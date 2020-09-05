@@ -9,9 +9,9 @@ class DeviceXiaoMiSensor(DeviceSensor):
     type = None
 
 
+
+
 class IlluminationSensor(DeviceXiaoMiSensor):
     name = 'xiaomi'
     type = 'guangzhao'
 
-    def get_data(self):
-        pass
