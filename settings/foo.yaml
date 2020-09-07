@@ -2,6 +2,9 @@ mqtt_setting:
   iterval: 15
   broker_port: 1883
 
+modbus_setting:
+  host: 192.168.207.110
+  port: 1100
 
 mqtt:
   - sensor:
@@ -27,3 +30,17 @@ mqtt:
         unit_type_col: 单位
         unit: '%'
         datetime_col: 时间
+
+modbus:
+  - sensor:
+      env: test.csv
+      name: modbus_sensor1
+      numb: TimeSeriesVariable125
+      numb_col: 传感器串号
+      values:
+        - slave: 1
+          register: 100
+          data_source_col: 数据
+          unit_type_col: 单位
+          unit: C
+          datetime_col: 时间

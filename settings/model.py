@@ -75,6 +75,9 @@ class CheckOutSetting(object):
         else:
             logger.info('mqtt check fail')
 
+    def check_modbus_setting(self):
+        pass
+
     def mqtt_sensor_check(self):
         self.check_mqtt_setting()
         for sensor in self.yaml_info.get('mqtt', []):

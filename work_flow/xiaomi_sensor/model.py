@@ -18,27 +18,29 @@ def async_call(fn):
 
 
 class MqttXiaoMiSensor(object):
+    iterval = 5
 
     def __init__(self, name, port, sensor_nu, unit, key, **kwargs):
         self.sensor = DeviceXiaoMiSensor(name=name, sensor_nu=sensor_nu, unit=unit, key=key)
         self.mqtt_client = MqttClient(port=port)
         self.source_data = CsvData(kwargs=kwargs.get('kwargs'))
+        iterval = kwargs.get('kwargs').get('mqtt_settings', {}).get('iterval', False)
+        # 如果没有给默认的刷新时间  就直接给5秒
+        self.iterval = iterval if iterval else 5
 
     @async_call
     def run(self):
         data = self.source_data.get_data()
         t = 0
-        flush = 3
         while True:
             for d in data:
-                time.sleep(flush)
+                time.sleep(self.iterval)
                 payload = self.sensor.get_data(value=d)
                 topic = self.sensor.get_topic()
                 self.mqtt_client.send_data(topic=topic, data=payload)
-                t += flush
+                t += self.iterval
                 if t > 60:
                     # 定时发送 设备在线状态 并且重新建立连接
                     self.mqtt_client.send_data(topic=self.sensor.status_topic(), data='online')
                     self.mqtt_client.flush_client()
                     t = 0
-
