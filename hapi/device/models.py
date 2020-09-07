@@ -18,6 +18,9 @@ class DeviceSensor(object):
     def get_topic(self):
         return 'zigebee2mqtt/%s' % self.sensor_nu
 
+    def status_topic(self):
+        return 'zigebee2mqtt/%s/status' % self.sensor_nu
+
     def get_data(self, value):
         # 统一规定所有获取数据的方式都是使用
         value = self.fluctuation(value=value)

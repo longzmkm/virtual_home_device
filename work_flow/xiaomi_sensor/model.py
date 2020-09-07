@@ -27,8 +27,18 @@ class MqttXiaoMiSensor(object):
     @async_call
     def run(self):
         data = self.source_data.get_data()
-        for data in data[self.source_data.data_source_col]:
-            time.sleep(1)
-            data = self.sensor.get_data(value=data)
-            topic = self.sensor.get_topic()
-            self.mqtt_client.send_data(topic=topic, data=data)
+        t = 0
+        flush = 3
+        while True:
+            for d in data:
+                time.sleep(flush)
+                payload = self.sensor.get_data(value=d)
+                topic = self.sensor.get_topic()
+                self.mqtt_client.send_data(topic=topic, data=payload)
+                t += flush
+                if t > 60:
+                    # 定时发送 设备在线状态 并且重新建立连接
+                    self.mqtt_client.send_data(topic=self.sensor.status_topic(), data='online')
+                    self.mqtt_client.flush_client()
+                    t = 0
+

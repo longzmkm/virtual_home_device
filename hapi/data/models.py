@@ -48,12 +48,11 @@ class CsvData(object):
     def read_data(self):
         data = pd.read_csv(self.path, usecols=self.cols, nrows=2000)
         data = data[data[self.numb_col] == self.sensor_nu]
-        self.data = data[data[self.unit_type_col] == self.unit]
-
+        data = data[data[self.unit_type_col] == self.unit]
+        self.data = data[self.data_source_col].array
         return data
 
     def _get_data_by_rule(self, filter_col=None, filter_rule=None):
-
         return self.data
 
     def get_data(self):

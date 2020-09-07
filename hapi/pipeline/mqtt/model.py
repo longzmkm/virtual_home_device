@@ -30,6 +30,10 @@ class MqttClient(object):
         logger.info('Send Mqtt host:%s,Port:%s, topic:%s ,payload:%s' % (self.host, self.port, topic, data))
         self._client.publish(topic=topic, payload=json.dumps(data), qos=1)
 
+    def flush_client(self):
+        self._client = mqtt.Client(client_id=self.generate_number())
+        self._client.connect(host='localhost', port=self.port, keepalive=60)
+
     def get_host_ip(self):
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
