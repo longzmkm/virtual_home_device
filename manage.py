@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # © 2016 QYT Technology
 # Authored by: Liu tianlong (tlzmkm@gmail.com)
+import asyncio
+
 from discovery import auto_discover
 import logging
 from settings.model import CheckOutSetting
@@ -18,9 +20,12 @@ if __name__ == '__main__':
     path = os.path.join(file_name_path, YAML_FILE)
 
     obj = CheckOutSetting(path=path)
-    for x in obj.run():
-        logger.info(x)
-        MqttXiaoMiSensor()
+
+    for dev in obj.run():
+        task = MqttXiaoMiSensor(name=dev.get('name'), port=dev.get('mqtt_settings').get('broker_port'),
+                               sensor_nu=dev.get('sensor_nu'), unit=dev.get('unit'), key=dev.get('key'), kwargs=dev)
+
+        task.run()
     # 1.检测yaml 文件
     # 2.检测数据源正确性
     # 3.初始化各种连接方式

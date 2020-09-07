@@ -1,29 +1,29 @@
 mqtt_setting:
   iterval: 15
-  broker_port: 1884
+  broker_port: 1883
 
 
 mqtt:
   - sensor:
-    env: data_line_2000.csv
+    env: test.csv
     name: light
     numb: TimeSeriesVariable125
     numb_col: 传感器串号
     values:
-      - key: ill
-        data_sourece_col: 数据
+      - key: temperature
+        data_source_col: 数据
         unit_type_col: 单位
         unit: C
         datetime_col: 时间
 
-#  - sensor:
-#    env: Sensor.csv
-#    name: plug
-#    numb: TimeSeriesVariable125
-#    numb_col: 传感器串号
-#    values:
-#      - key: temperature
-#        data_sourece_col: 数据
-#        unit_type_col: 单位
-#        unit: '%'
-#        datetime_col: 时间
+  - sensor:
+    env: test.csv
+    name: shidu
+    numb: TimeSeriesVariable2091
+    numb_col: 传感器串号
+    values:
+      - key: ill
+        data_source_col: 数据
+        unit_type_col: 单位
+        unit: '%'
+        datetime_col: 时间

@@ -5,6 +5,7 @@ import pandas as pd
 
 
 class CsvData(object):
+    data = None
 
     def __init__(self, *args, **kwargs):
         self.path = kwargs.get('kwargs', {}).get('file_path')
@@ -17,7 +18,10 @@ class CsvData(object):
         self.unit_type_col = kwargs.get('kwargs', {}).get('unit_type_col')
         self.unit = kwargs.get('kwargs', {}).get('unit')
 
+        self.data_source_col = kwargs.get('kwargs', {}).get('data_source_col')
         self.kwargs = kwargs
+
+        self.read_data()
 
     def __str__(self):
         return str('(Sensor Name:%s -> %s, unit:%s -> %s) DATA  File Path:%s' % (
@@ -41,9 +45,19 @@ class CsvData(object):
             raise Exception('输入的行不存在')
         return True
 
-    def get_data(self):
-        data = pd.read_csv(self.path, usecols=self.cols, nrows=100)
+    def read_data(self):
+        data = pd.read_csv(self.path, usecols=self.cols, nrows=2000)
         data = data[data[self.numb_col] == self.sensor_nu]
+        self.data = data[data[self.unit_type_col] == self.unit]
+
+        return data
+
+    def _get_data_by_rule(self, filter_col=None, filter_rule=None):
+
+        return self.data
+
+    def get_data(self):
+        data = self._get_data_by_rule()
         return data
 
 
