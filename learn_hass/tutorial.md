@@ -1,16 +1,11 @@
 # homeassistant使用教程
 
-* [在rk3288上下载及安装docker](#index1)
-
-* [在rk3288上使用docker下载及运行homeassistant容器](#index2)
-
-* [homeassistant配置集成地图](#index3)
-
-* [homeassistant配置集成在线编辑](#index4)
-
-* [homeassistant配置mqtt](#index5)
-
-* [homeassistant配置modbus](#index6)
+* [1.在rk3288上下载及安装docker](#index1)
+* [2.在rk3288上使用docker下载及运行homeassistant容器](#index2)
+* [3.homeassistant配置集成在线编辑](#index3)
+* [4.homeassistant配置集成地图](#index4)
+* [5.homeassistant配置mqtt](#index5)
+* [6.homeassistant配置modbus](#index6)
 
 <span id="index1"></span>
 
@@ -36,7 +31,18 @@ curl -sSL https://get.daocloud.io/docker | sh
 * 在浏览器中访问 <http://192.168.207.51:8123>，ip为rk3288的地址
 * 创建账号密码
 
+
 <span id="index3"></span>
+## homeassistant配置集成在线编辑
+* 查看docker 容器
+```
+ sudo docker ps -a
+```
+![avatar](../image/docker_ps_a.png)
+
+
+
+<span id="index4"></span>
 
 ## homeassistant配置集成地图
 
