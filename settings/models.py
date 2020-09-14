@@ -129,7 +129,6 @@ class CheckOutSetting(object):
             for sensor in sensors:
                 values = sensor.get('values', [])
                 if values:
-                    # self.sensor_info.append(self.check_single_modbus_sensor(sensor))
                     del sensor['values']
                     for v in values:
                         sensor.update(v)

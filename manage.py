@@ -39,7 +39,6 @@ if __name__ == '__main__':
         block_name = '%s' % slave
         client = modbus_clinet.get(block_name, None)
         iterval = modbus.get('settings').get('iterval', None)
-        print(modbus.get('settings').get('port'))
         if not client:
             server = ModbusToTcp(slave=slave, port=modbus.get('settings').get('port'))
             client = server.create_client(block_name=block_name)
