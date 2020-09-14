@@ -27,8 +27,7 @@ if __name__ == '__main__':
 
     for dev in sensors.get('mqtt_sensor'):
         task = MqttXiaoMiSensor(name=dev.get('name'), port=dev.get('mqtt_settings').get('broker_port'),
-                                sensor_nu=dev.get('sensor_nu'), unit=dev.get('unit'), key=dev.get('key'),
-                                kwargs=dev)
+                                sensor_nu=dev.get('sensor_nu'), unit=dev.get('unit'), key=dev.get('key'),kwargs=dev)
         task.run()
 
     modbus = sensors.get('modbus_sensor')
