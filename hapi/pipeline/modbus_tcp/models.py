@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class ModbusToTcp(object):
 
     def __init__(self, slave, port):
-        self.host = '192.168.207.110'
+        self.host = '192.168.207.104'
         self.slave = slave
         self.port = port
         self.server = None
