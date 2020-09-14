@@ -34,12 +34,38 @@ curl -sSL https://get.daocloud.io/docker | sh
 
 <span id="index3"></span>
 ## homeassistant配置集成在线编辑
-* 查看docker 容器
+* 查看docker 容器 查找出名称为 home-assistant 的 CONTAINER ID
 ```
  sudo docker ps -a
 ```
-![avatar](../image/docker_ps_a.png)
+![avatar](./image/docker_ps_a.png)
+* 进入容器内部 安装 hass-configurator
+```
+docker exec -ti 2c0ddfbed370 /bin/bash
+pip install hass-configurator
+```
+![avatar](./image/install_hass_configurator.png)
+* 运行插件 hass-configurator
+```angular2
+hass-configurator &
+```
+![avatar](./image/run_hass_configurator.png)
+* 在home-assistant的配置文件 configuration.yaml 中添加 (这个地方的IP就是 网关的ip，端口是固定的)
+```angular2
+panel_iframe:
+  configurator:
+    title: HASS配置器
+    icon: mdi:wrench
+    url: 'http://192.168.207.234:3218/'
+```
+![avatar](./image/hass_config.png)
+* 重启服务
+![avatar](./image/restart_hass_1.png)
+![avatar](./image/restart_hass_2.png)
 
+* 怎么编辑配置文件
+![avatar](./image/update_settings_1.png)
+![avatar](./image/update_settings_2.png)
 
 
 <span id="index4"></span>
