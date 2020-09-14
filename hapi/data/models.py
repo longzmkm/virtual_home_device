@@ -46,7 +46,7 @@ class CsvData(object):
         return True
 
     def read_data(self):
-        data = pd.read_csv(self.path, usecols=self.cols, nrows=2000)
+        data = pd.read_csv(self.path, usecols=self.cols)
         data = data[data[self.numb_col] == self.sensor_nu]
         data = data[data[self.unit_type_col] == self.unit]
         self.data = data[self.data_source_col].array

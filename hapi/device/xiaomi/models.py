@@ -9,9 +9,6 @@ class DeviceXiaoMiSensor(DeviceSensor):
     type = None
 
 
-
-
 class IlluminationSensor(DeviceXiaoMiSensor):
     name = 'xiaomi'
     type = 'guangzhao'
-

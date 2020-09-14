@@ -21,6 +21,7 @@ class CheckOutSetting(object):
     out_put = []
 
     mqtt_settings = {}
+    modbus_settings = {}
 
     def __init__(self, path):
         self.path = path
@@ -67,6 +68,36 @@ class CheckOutSetting(object):
 
         return temp
 
+    def check_single_modbus_sensor(self, data):
+        logger.debug('start check sensor  name:%s , numb:%s' % (data.get('name'), data.get('numb')))
+        temp = {}
+        for k, v in data.items():
+            if k == 'env' and v in self.data_file.keys():
+                temp.update({'file_name': v})
+                temp.update({'file_path': self.data_file.get(v)})
+            elif k == 'numb':
+                temp.update({'sensor_nu': v})
+            elif k == 'name':
+                temp.update({'name': v})
+            elif k == 'numb_col':
+                temp.update({'numb_col': v})
+            elif k == 'slave':
+                temp.update({'slave': v})
+            elif k == 'register':
+                temp.update({'register': v})
+            elif k == 'data_source_col':
+                temp.update({'data_source_col': v})
+            elif k == 'unit_type_col':
+                temp.update({'unit_type_col': v})
+            elif k == 'unit':
+                temp.update({'unit': v})
+            elif k == 'datetime_col':
+                temp.update({'datetime_col': v})
+
+        temp.update({'modbus_settings': self.modbus_settings})
+
+        return temp
+
     def check_mqtt_setting(self):
         key = {'iterval', 'host', 'broker_port'}
         if set(self.yaml_info.get('mqtt_setting').keys()).issubset(key):
@@ -76,15 +107,36 @@ class CheckOutSetting(object):
             logger.info('mqtt check fail')
 
     def check_modbus_setting(self):
-        pass
+        key = {'host', 'port', 'iterval'}
+        if set(self.yaml_info.get('modbus_setting').keys()).issubset(key):
+            logger.info('modbus check success')
+            self.modbus_settings = self.yaml_info.get('modbus_setting')
+        else:
+            logger.info('modbus check fail')
 
     def mqtt_sensor_check(self):
         self.check_mqtt_setting()
-        for sensor in self.yaml_info.get('mqtt', []):
-            self.sensor_info.append(self.check_single_mqtt_sensor(sensor))
-        self.check_data_file()
+        sensors = self.yaml_info.get('mqtt', [])
+        if sensors:
+            for sensor in sensors:
+                self.sensor_info.append(self.check_single_mqtt_sensor(sensor))
+            self.check_data_file()
 
     def modbus_check(self):
+        self.check_modbus_setting()
+        sensors = self.yaml_info.get('modbus', [])
+        if sensors:
+            for sensor in sensors:
+                values = sensor.get('values', [])
+                if values:
+                    # self.sensor_info.append(self.check_single_modbus_sensor(sensor))
+                    del sensor['values']
+                    for v in values:
+                        sensor.update(v)
+                        self.sensor_info.append(self.check_single_modbus_sensor(sensor))
+                else:
+                    raise Exception(u'这个地方有问题')
+            self.check_data_file()
         logger.info('modbus_check')
 
     def check_data_file(self):
@@ -97,8 +149,30 @@ class CheckOutSetting(object):
 
     def finish(self):
         # TODO  现在只做了mqtt 的设置检查， 还要补充modbus的数据
-        self.out_put = self.sensor_info
-        return self.sensor_info
+        # self.out_put = self.sensor_info
+        self.check_modbus_setting()
+        temp = []
+        mqtt = []
+        for sensor in self.sensor_info:
+            if 'mqtt_settings' in sensor.keys():
+                mqtt.append(sensor)
+            elif 'modbus_settings' in sensor.keys():
+                temp.append(sensor)
+            else:
+                raise Exception(u'需要添加新的类型')
+        t = {}
+        for x in temp:
+            slave = x.get('slave')
+            slave_list = t.get(slave, [])
+            slave_list.append(x)
+            t.update({slave: slave_list})
+        return {
+            "mqtt_sensor": mqtt,
+            "modbus_sensor": {
+                "sensors": t,
+                "settings": self.modbus_settings
+            }
+        }
 
     def run(self):
         try:
@@ -109,8 +183,9 @@ class CheckOutSetting(object):
             for check in checks:
                 func = getattr(self, check, False)
                 func()
-            self.finish()
-            return self.out_put
+
+            return self.finish()
         except Exception as e:
+            print(e)
             import traceback
             logger.error(traceback.format_exc())
