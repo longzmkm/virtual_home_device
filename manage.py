@@ -31,7 +31,6 @@ if __name__ == '__main__':
                                 kwargs=dev)
         task.run()
 
-
     modbus = sensors.get('modbus_sensor')
 
     for slave, modbus_sensors in modbus.get('sensors').items():
@@ -40,7 +39,7 @@ if __name__ == '__main__':
         client = modbus_clinet.get(block_name, None)
         iterval = modbus.get('settings').get('iterval', None)
         if not client:
-            server = ModbusToTcp(slave=slave, port=modbus.get('settings').get('port'))
+            server = ModbusToTcp(slave=slave, host=modbus.get('settings').get('host'), port=modbus.get('settings').get('port'))
             client = server.create_client(block_name=block_name)
             modbus_clinet.update({block_name: client})
         task = ModbusXiaoMiSensor(modbus_client=client, slave=slave, registers=modbus_sensors, iterval=iterval)
