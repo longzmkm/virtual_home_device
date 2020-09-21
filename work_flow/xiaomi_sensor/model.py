@@ -8,6 +8,7 @@ from data.models import CsvData
 from hapi.device.xiaomi.models import DeviceXiaoMiSensor
 from hapi.pipeline.mqtt.model import MqttClient
 from threading import Thread
+import paho.mqtt.subscribe as subscribe
 
 from pipeline.modbus_tcp.models import ModbusToTcp
 
@@ -23,6 +24,7 @@ class MqttXiaoMiSensor(object):
     iterval = 5
 
     def __init__(self, name, port, sensor_nu, unit, key, **kwargs):
+        self.port = port
         self.sensor = DeviceXiaoMiSensor(name=name, sensor_nu=sensor_nu, unit=unit, key=key)
         self.mqtt_client = MqttClient(port=port)
         self.source_data = CsvData(kwargs=kwargs.get('kwargs'))
@@ -33,7 +35,9 @@ class MqttXiaoMiSensor(object):
     @async_call
     def run(self):
         data = self.source_data.get_data()
+        self.set_status()
         t = 0
+        self.mqtt_client.send_data(topic=self.sensor.status_topic(), data=self.sensor.status)
         while True:
             for d in data:
                 time.sleep(self.iterval)
@@ -43,9 +47,16 @@ class MqttXiaoMiSensor(object):
                 t += self.iterval
                 if t > 60:
                     # 定时发送 设备在线状态 并且重新建立连接
-                    self.mqtt_client.send_data(topic=self.sensor.status_topic(), data='online')
+                    self.mqtt_client.send_data(topic=self.sensor.status_topic(), data=self.sensor.status)
                     self.mqtt_client.flush_client()
                     t = 0
+
+    @async_call
+    def set_status(self):
+        subscribe.callback(self.sensor.get_paylod_set_status, self.sensor.status_topic(),
+                           hostname='localhost', port=self.port,
+                           client_id=self.mqtt_client.generate_number(),
+                           keepalive=60)
 
 
 class ModbusXiaoMiSensor(object):

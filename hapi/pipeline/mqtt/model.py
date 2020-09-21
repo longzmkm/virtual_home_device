@@ -34,11 +34,13 @@ class MqttClient(object):
         self._client = mqtt.Client(client_id=self.generate_number())
         self._client.connect(host='localhost', port=self.port, keepalive=60)
 
-    def get_host_ip(self):
+    @classmethod
+    def get_host_ip(cls):
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             s.connect(('8.8.8.8', 80))
             ip = s.getsockname()[0]
+            print(ip)
         finally:
             s.close()
 
