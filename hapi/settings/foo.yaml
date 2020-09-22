@@ -1,0 +1,184 @@
+mqtt_setting:
+  host: 192.168.204.108
+  iterval: 15
+  broker_port: 1883
+
+modbus_setting:
+  iterval: 5
+  host: 192.168.204.108
+  port: 1100
+
+mqtt:
+  - sensor:
+    env: test.csv
+    name: light
+    numb: TimeSeriesVariable125
+    numb_col: 传感器串号
+    values:
+      - key: temperature
+        data_source_col: 数据
+        unit_type_col: 单位
+        unit: C
+        datetime_col: 时间
+
+  - sensor:
+    env: test.csv
+    name: shidu
+    numb: TimeSeriesVariable2091
+    numb_col: 传感器串号
+    values:
+      - key: ill
+        data_source_col: 数据
+        unit_type_col: 单位
+        unit: '%'
+        datetime_col: 时间
+
+  - sensor:
+    env: sensor1.csv
+    name: wendu
+    numb: sensor1
+    numb_col: 传感器串号
+    values:
+      - key: temperature
+        data_source_col: 数据
+        unit_type_col: 单位
+        unit: C
+        datetime_col: 时间
+
+  - sensor:
+    env: sensor7.csv
+    name: wendu
+    numb: sensor2
+    numb_col: 传感器串号
+    values:
+      - key: ill
+        data_source_col: 数据
+        unit_type_col: 单位
+        unit: '%'
+        datetime_col: 时间
+
+  - sensor:
+    env: sensor1.csv
+    name: wendu
+    numb: sensor3
+    numb_col: 传感器串号
+    values:
+      - key: temperature
+        data_source_col: 数据
+        unit_type_col: 单位
+        unit: C
+        datetime_col: 时间
+
+
+  - sensor:
+    env: sensor7.csv
+    name: wendu
+    numb: sensor4
+    numb_col: 传感器串号
+    values:
+      - key: ill
+        data_source_col: 数据
+        unit_type_col: 单位
+        unit: '%'
+        datetime_col: 时间
+
+  - sensor:
+    env: sensor1.csv
+    name: wendu
+    numb: sensor5
+    numb_col: 传感器串号
+    values:
+      - key: temperature
+        data_source_col: 数据
+        unit_type_col: 单位
+        unit: C
+        datetime_col: 时间
+
+  - sensor:
+    env: sensor7.csv
+    name: wendu
+    numb: sensor6
+    numb_col: 传感器串号
+    values:
+      - key: ill
+        data_source_col: 数据
+        unit_type_col: 单位
+        unit: '%'
+        datetime_col: 时间
+
+  - sensor:
+    env: sensor7.csv
+    name: wendu
+    numb: sensor7
+    numb_col: 传感器串号
+    values:
+      - key: temperature
+        data_source_col: 数据
+        unit_type_col: 单位
+        unit: '%'
+        datetime_col: 时间
+  - sensor:
+    env: sensor7.csv
+    name: wendu
+    numb: sensor8
+    numb_col: 传感器串号
+    values:
+      - key: temperature
+        data_source_col: 数据
+        unit_type_col: 单位
+        unit: '%'
+        datetime_col: 时间
+  - sensor:
+    env: sensor7.csv
+    name: wendu
+    numb: sensor9
+    numb_col: 传感器串号
+    values:
+      - key: temperature
+        data_source_col: 数据
+        unit_type_col: 单位
+        unit: '%'
+        datetime_col: 时间
+
+  - sensor:
+    env: sensor7.csv
+    name: wendu
+    numb: sensor10
+    numb_col: 传感器串号
+    values:
+      - key: temperature
+        data_source_col: 数据
+        unit_type_col: 单位
+        unit: '%'
+        datetime_col: 时间
+
+  - sensor:
+    env: sensor7.csv
+    name: wendu
+    numb: sensor11
+    numb_col: 传感器串号
+    values:
+      - key: temperature
+        data_source_col: 数据
+        unit_type_col: 单位
+        unit: '%'
+        datetime_col: 时间
+
+#modbus:
+#  - sensor:
+#    env: test.csv
+#    name: modbus_sensor1
+#    numb: TimeSeriesVariable125
+#    numb_col: 传感器串号
+#    slave: 1
+#    values:
+#      - register: 1
+#        data_source_col: 数据
+#        unit_type_col: 单位
+#        unit: C
+#        datetime_col: 时间
+#      - register: 2
+#        data_source_col: 数据
+#        unit_type_col: 单位
+#        unit: '%'
+#        datetime_col: 时间
