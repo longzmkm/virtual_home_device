@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 # © 2016 QYT Technology
 # Authored by: Liu tianlong (tlzmkm@gmail.com)
-import asyncio
 
-from discovery import auto_discover
 import logging
+import os
+# from pipeline.modbus_tcp.models import ModbusToTcp
+# from settings.models import CheckOutSetting
 from pipeline.modbus_tcp.models import ModbusToTcp
 from settings.models import CheckOutSetting
-import os
-
 from work_flow.xiaomi_sensor.model import MqttXiaoMiSensor, ModbusXiaoMiSensor
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
@@ -16,6 +15,7 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(filename)s[line:%
 logger = logging.getLogger(__name__)
 
 if __name__ == '__main__':
+
     YAML_FILE = 'settings/foo.yaml'
     file_name_path = os.path.split(os.path.realpath(__file__))[0]
     path = os.path.join(file_name_path, YAML_FILE)
@@ -26,7 +26,7 @@ if __name__ == '__main__':
     modbus_clinet = {}
 
     for dev in sensors.get('mqtt_sensor'):
-        task = MqttXiaoMiSensor(name=dev.get('name'), port=dev.get('mqtt_settings').get('broker_port'),
+        task = MqttXiaoMiSensor(name=dev.get('name'),host=dev.get('mqtt_settings').get('host'), port=dev.get('mqtt_settings').get('broker_port'),
                                 sensor_nu=dev.get('sensor_nu'), unit=dev.get('unit'), key=dev.get('key'),kwargs=dev)
         task.run()
 

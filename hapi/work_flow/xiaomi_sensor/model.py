@@ -5,8 +5,8 @@ import asyncio
 import time
 
 from data.models import CsvData
-from hapi.device.xiaomi.models import DeviceXiaoMiSensor
-from hapi.pipeline.mqtt.model import MqttClient
+from device.xiaomi.models import DeviceXiaoMiSensor
+from pipeline.mqtt.model import MqttClient
 from threading import Thread
 import paho.mqtt.subscribe as subscribe
 
@@ -23,10 +23,10 @@ def async_call(fn):
 class MqttXiaoMiSensor(object):
     iterval = 5
 
-    def __init__(self, name, port, sensor_nu, unit, key, **kwargs):
+    def __init__(self, name, host, port, sensor_nu, unit, key, **kwargs):
         self.port = port
         self.sensor = DeviceXiaoMiSensor(name=name, sensor_nu=sensor_nu, unit=unit, key=key)
-        self.mqtt_client = MqttClient(port=port)
+        self.mqtt_client = MqttClient(host=host, port=port)
         self.source_data = CsvData(kwargs=kwargs.get('kwargs'))
         iterval = kwargs.get('kwargs').get('mqtt_settings', {}).get('iterval', False)
         # 如果没有给默认的刷新时间  就直接给5秒
@@ -54,7 +54,7 @@ class MqttXiaoMiSensor(object):
     @async_call
     def set_status(self):
         subscribe.callback(self.sensor.get_paylod_set_status, self.sensor.status_topic(),
-                           hostname='localhost', port=self.port,
+                           hostname=self.mqtt_client.host, port=self.port,
                            client_id=self.mqtt_client.generate_number(),
                            keepalive=60)
 

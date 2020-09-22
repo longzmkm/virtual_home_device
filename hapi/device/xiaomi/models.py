@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # © 2016 QYT Technology
 # Authored by: Liu tianlong (tlzmkm@gmail.com)
-from hapi.device.models import DeviceSensor
+from device.models import DeviceSensor
 
 
 class DeviceXiaoMiSensor(DeviceSensor):

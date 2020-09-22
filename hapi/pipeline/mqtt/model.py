@@ -16,12 +16,13 @@ logger = logging.getLogger(__name__)
 
 class MqttClient(object):
 
-    def __init__(self, port):
-        self.host = 'localhost'
+    def __init__(self, host, port):
+        # self.host = 'localhost'
+        self.host = host
         self.port = port
 
         self._client = mqtt.Client(client_id=self.generate_number())
-        self._client.connect(host='localhost', port=self.port, keepalive=60)
+        self._client.connect(host=self.host, port=self.port, keepalive=60)
 
     def generate_number(self):
         return ''.join(random.sample(string.ascii_letters + string.digits, 16))
@@ -32,7 +33,7 @@ class MqttClient(object):
 
     def flush_client(self):
         self._client = mqtt.Client(client_id=self.generate_number())
-        self._client.connect(host='localhost', port=self.port, keepalive=60)
+        self._client.connect(host=self.host, port=self.port, keepalive=60)
 
     @classmethod
     def get_host_ip(cls):
