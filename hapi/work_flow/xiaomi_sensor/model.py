@@ -53,8 +53,9 @@ class MqttXiaoMiSensor(object):
 
     @async_call
     def set_status(self):
-        subscribe.callback(self.sensor.get_paylod_set_status, self.sensor.status_topic(),
+        subscribe.callback(self.sensor.get_paylod_set_status, self.sensor.set_topic(),
                            hostname=self.mqtt_client.host, port=self.port,
+                           userdata=self.mqtt_client,
                            client_id=self.mqtt_client.generate_number(),
                            keepalive=60)
 

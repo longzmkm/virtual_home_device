@@ -33,11 +33,15 @@ class DeviceSensor(object):
     def status_topic(self):
         return 'zigebee2mqtt/%s/status' % self.sensor_nu
 
+    def set_topic(self):
+        return 'zigebee2mqtt/%s/set' % self.sensor_nu
+
     @async_call
     def get_paylod_set_status(self, client, userdata, message):
         payload = message.payload.decode('utf-8')
         if payload in ['on', 'off']:
             self.status = payload
+            userdata.send_data(topic=self.status_topic(), data=self.status)
         return True
 
     def get_data(self, value):
